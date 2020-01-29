@@ -13,7 +13,9 @@ import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
+  KeyboardDatePicker,
 } from '@material-ui/pickers';
+import moment from 'moment';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,16 +36,34 @@ const useStyles = makeStyles((theme: Theme) =>
       ...theme.mixins.toolbar,
       justifyContent: 'flex-end',
     },
+    term: {
+      margin: '16px',
+    },
+    termWeek: {
+      width: '200px',
+    },
     endDate: {
+      marginTop: '16px',
+      marginBottom: '16px',
+    },
+    endDatePart: {
       display: 'flex',
       justifyContent: 'flex-start',
     },
     dayOfWeek: {
-      marginLeft: '8px',
       marginRight: '16px',
       marginTop: '16px',
-      marginBottom: '8px',
-    }
+    },
+    daySetting: {
+      margin: '16px',
+    },
+    daySettingStart: {
+      marginRight: '16px',
+      marginTop: '16px',
+    },
+    dailyScrum: {
+      margin: '16px',
+    },
   }),
 );
 
@@ -52,9 +72,32 @@ const ScrumTimerDrawer: FC<{
   open: boolean;
   day: number;
   setDay: (day: number) => void;
-  time: Date;
-  setTime: (date: Date) => void;
-}> = ({ handleDrawerClose, open, day, setDay, time, setTime }) => {
+  sprintEndTime: moment.Moment;
+  setSprintEndTime: (date: moment.Moment) => void;
+  term: number;
+  setTerm: (term: number) => void;
+  dayStartTime: moment.Moment;
+  setDayStartTime: (date: moment.Moment) => void;
+  dayEndTime: moment.Moment;
+  setDayEndTime: (date: moment.Moment) => void;
+  dailyScrumTime: moment.Moment;
+  setDailyScrumTime: (date: moment.Moment) => void;
+}> = ({
+  handleDrawerClose,
+  open,
+  day,
+  setDay,
+  sprintEndTime,
+  setSprintEndTime,
+  term,
+  setTerm,
+  dayStartTime,
+  setDayStartTime,
+  dayEndTime,
+  setDayEndTime,
+  dailyScrumTime,
+  setDailyScrumTime,
+}) => {
   const classes = useStyles();
 
   return (
@@ -71,38 +114,95 @@ const ScrumTimerDrawer: FC<{
           </IconButton>
         </div>
         <Divider />
-        <Typography variant="h5">Sprint end date</Typography>
-        <div className={classes.endDate}>
-          <div className={classes.dayOfWeek}>
-            <InputLabel shrink id="demo-simple-select-placeholder-label-label">
-              Day of week
-            </InputLabel>
-            <Select
-              value={day}
-              onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
-                setDay(event.target.value as number);
-              }}
-            >
-              <MenuItem value={0}>Sunday</MenuItem>
-              <MenuItem value={1}>Monday</MenuItem>
-              <MenuItem value={2}>Tuesday</MenuItem>
-              <MenuItem value={3}>Wednesday</MenuItem>
-              <MenuItem value={4}>Thursday</MenuItem>
-              <MenuItem value={5}>Friday</MenuItem>
-              <MenuItem value={6}>Saturday</MenuItem>
-            </Select>
+        <div className={classes.term}>
+          <Typography variant="subtitle2" gutterBottom>
+            Product Setting
+          </Typography>
+          <div className={classes.endDate}>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                margin="none"
+                label="product begin date"
+                value={new Date()}
+                variant="inline"
+                onChange={(date: Date | null) => {
+                  if (date) {
+                    setSprintEndTime(moment(date));
+                  } else {
+                    setSprintEndTime(
+                      moment(new Date(new Date().setHours(18, 0, 0, 0))),
+                    );
+                  }
+                }}
+              />
+            </MuiPickersUtilsProvider>
           </div>
+          <InputLabel shrink>sprint term</InputLabel>
+          <Select
+            className={classes.termWeek}
+            value={term}
+            onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+              setTerm(event.target.value as number);
+            }}
+          >
+            <MenuItem value={1}>1 week</MenuItem>
+            <MenuItem value={2}>2 week</MenuItem>
+            <MenuItem value={3}>3 week</MenuItem>
+            <MenuItem value={4}>4 week</MenuItem>
+          </Select>
+        </div>
+        <Divider />
+        <div className={classes.daySetting}>
+          <Typography variant="subtitle2">Day Setting</Typography>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardTimePicker
               margin="normal"
-              label="Time"
+              label="begin time"
               minutesStep={5}
-              value={time}
+              value={dayStartTime}
               onChange={(date: Date | null) => {
                 if (date) {
-                  setTime(date);
+                  setDayStartTime(moment(date));
                 } else {
-                  setTime(new Date(new Date().setHours(18, 0, 0, 0)));
+                  setDayStartTime(
+                    moment(new Date(new Date().setHours(9, 0, 0, 0))),
+                  );
+                }
+              }}
+            />
+          </MuiPickersUtilsProvider>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardTimePicker
+              margin="normal"
+              label="End Time"
+              minutesStep={5}
+              value={dayEndTime}
+              onChange={(date: Date | null) => {
+                if (date) {
+                  setDayEndTime(moment(date));
+                } else {
+                  setDayEndTime(
+                    moment(new Date(new Date().setHours(18, 0, 0, 0))),
+                  );
+                }
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
+        <div className={classes.dailyScrum}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardTimePicker
+              margin="normal"
+              label="daily scrum begin time"
+              minutesStep={5}
+              value={dailyScrumTime}
+              onChange={(date: Date | null) => {
+                if (date) {
+                  setDailyScrumTime(moment(date));
+                } else {
+                  setDailyScrumTime(
+                    moment(new Date(new Date().setHours(9, 0, 0, 0))),
+                  );
                 }
               }}
             />

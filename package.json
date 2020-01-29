@@ -16,8 +16,10 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "date-fns": "^2.8.1",
+    "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-animated-text": "^0.1.4",
+    "react-calendar": "^2.19.2",
     "react-countdown": "^2.2.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.0",
@@ -67,6 +69,7 @@
     "stylelint": "^12.0.1",
     "stylelint-config-prettier": "^8.0.0",
     "stylelint-config-standard": "^19.0.0",
-    "stylelint-order": "^4.0.0"
+    "stylelint-order": "^4.0.0",
+    "tslint": "^5.20.1"
   }
 }
