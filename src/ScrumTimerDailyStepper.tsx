@@ -1,15 +1,13 @@
 import React, { FC } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import moment from 'moment';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import StepContent from '@material-ui/core/StepContent';
-import Typography from '@material-ui/core/Typography';
+import { Timeline, TimelineEvent } from 'react-event-timeline';
+import AccessTimeIcon from '@material-ui/icons/AccessTime';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     stepper: {
+      margin: '16px',
       width: '40%',
       height: '80vh',
     },
@@ -29,16 +27,19 @@ const ScrumTimerDailyStepper: FC<{
 
   return (
     <div className={classes.stepper}>
-      <Stepper orientation="vertical" activeStep={activeStep}>
-        {events.map(event => (
-          <Step key={event.date.toString()}>
-            <StepLabel>{event.date.format('H:mm')}</StepLabel>
-            <StepContent>
-              <Typography>{event.content}</Typography>
-            </StepContent>
-          </Step>
+      <Timeline>
+        {events.map((event, index) => (
+          <TimelineEvent
+            key={event.date.toString()}
+            title={event.date.format('H:mm')}
+            icon={<AccessTimeIcon />}
+            iconColor={index < activeStep ? '#757575' : '#6fba1c'}
+            collapsible
+          >
+            {event.content}
+          </TimelineEvent>
         ))}
-      </Stepper>
+      </Timeline>
     </div>
   );
 };

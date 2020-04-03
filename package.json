@@ -22,6 +22,7 @@
     "react-calendar": "^2.19.2",
     "react-countdown": "^2.2.0",
     "react-dom": "^16.12.0",
+    "react-event-timeline": "^1.6.3",
     "react-scripts": "3.3.0",
     "typescript": "~3.7.2"
   },
