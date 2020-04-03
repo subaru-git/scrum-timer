@@ -72,8 +72,8 @@ const ScrumTimerDrawer: FC<{
   open: boolean;
   day: number;
   setDay: (day: number) => void;
-  sprintEndTime: moment.Moment;
-  setSprintEndTime: (date: moment.Moment) => void;
+  productBeginDate: moment.Moment;
+  setProductBeginDate: (date: moment.Moment) => void;
   term: number;
   setTerm: (term: number) => void;
   dayStartTime: moment.Moment;
@@ -85,10 +85,8 @@ const ScrumTimerDrawer: FC<{
 }> = ({
   handleDrawerClose,
   open,
-  day,
-  setDay,
-  sprintEndTime,
-  setSprintEndTime,
+  productBeginDate,
+  setProductBeginDate,
   term,
   setTerm,
   dayStartTime,
@@ -123,13 +121,13 @@ const ScrumTimerDrawer: FC<{
               <KeyboardDatePicker
                 margin="none"
                 label="product begin date"
-                value={new Date()}
+                value={productBeginDate}
                 variant="inline"
                 onChange={(date: Date | null) => {
                   if (date) {
-                    setSprintEndTime(moment(date));
+                    setProductBeginDate(moment(date));
                   } else {
-                    setSprintEndTime(
+                    setProductBeginDate(
                       moment(new Date(new Date().setHours(18, 0, 0, 0))),
                     );
                   }

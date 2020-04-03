@@ -6,19 +6,18 @@ import ScrumTimerAppBar from './ScrumTimerAppBar';
 import ScrumTimerDrawer from './ScrumTimerDrawer';
 import ScrumTimerCountdown from './ScrumTimerCountdown';
 import ScrumTimerDailyStepper from './ScrumTimerDailyStepper';
+import { GetEndDate } from './SprintCalculator';
 
 const useStyles = makeStyles(() =>
   createStyles({
     appMain: {
       display: 'flex',
       flexDirection: 'row',
-      fontSize: 'calc(20px + 2vmin)',
       justifyContent: 'space-between',
       maxHeight: '80vh',
     },
     mainTimer: {
       alignSelf: 'center',
-      fontSize: 'calc(40px + 2vmin)',
       marginRight: '32px',
     },
     subTimers: {
@@ -31,9 +30,9 @@ const useStyles = makeStyles(() =>
 
 const App: FC = () => {
   const classes = useStyles();
-  const [open, setOpen] = useState<boolean>(true);
+  const [open, setOpen] = useState<boolean>(false);
   const [day, setDay] = useState<number>(1);
-  const [sprintEndTime, setSprintEndTime] = useState<moment.Moment>(
+  const [productBeginDate, setProductBeginDate] = useState<moment.Moment>(
     moment()
       .startOf('day')
       .hours(18),
@@ -52,14 +51,15 @@ const App: FC = () => {
   const [dailyScrumTime, setDailyScrumTime] = useState<moment.Moment>(
     moment()
       .startOf('day')
-      .hours(9),
+      .hours(9)
+      .minutes(15),
   );
-  const end = moment()
-    .startOf('day')
-    .hours(sprintEndTime.hours())
-    .minutes(sprintEndTime.minutes())
-    .day(day + 7 * term)
-    .toDate();
+  const end = GetEndDate(
+    productBeginDate.toDate(),
+    term,
+    moment().toDate(),
+    dayEndTime.toDate(),
+  );
   const events = [
     { date: dayStartTime, content: 'start working' },
     { date: dailyScrumTime, content: 'start daily scrum' },
@@ -83,8 +83,8 @@ const App: FC = () => {
         open={open}
         day={day}
         setDay={setDay}
-        sprintEndTime={sprintEndTime}
-        setSprintEndTime={setSprintEndTime}
+        productBeginDate={productBeginDate}
+        setProductBeginDate={setProductBeginDate}
         term={term}
         setTerm={setTerm}
         dayStartTime={dayStartTime}
@@ -98,12 +98,16 @@ const App: FC = () => {
         <ScrumTimerDailyStepper events={events} activeStep={activeStep} />
         {/* <Calendar /> */}
         <div className={classes.mainTimer}>
-          <ScrumTimerCountdown end={end} />
+          <ScrumTimerCountdown
+            end={dayEndTime.toDate()}
+            title="end work"
+            main
+          />
         </div>
       </div>
       <div className={classes.subTimers}>
-        <ScrumTimerCountdown end={end} />
-        <ScrumTimerCountdown end={end} />
+        <ScrumTimerCountdown end={end} title="next event" />
+        <ScrumTimerCountdown end={end} title="sprint end" />
       </div>
     </>
   );

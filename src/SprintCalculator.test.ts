@@ -1,0 +1,28 @@
+import moment from 'moment';
+import { GetEndDate } from './SprintCalculator';
+
+test('sprint calculator', () => {
+  const start = moment('2020-01-01 12:34').toDate();
+  const now = moment('2020-01-14 22:33').toDate();
+  const end = moment('2020-01-01 18:00').toDate();
+  expect(GetEndDate(start, 1, now, end).getTime()).toBe(
+    moment('2020-01-21 18:00')
+      .toDate()
+      .getTime(),
+  );
+  expect(GetEndDate(start, 2, now, end).getTime()).toBe(
+    moment('2020-01-28 18:00')
+      .toDate()
+      .getTime(),
+  );
+  expect(GetEndDate(start, 3, now, end).getTime()).toBe(
+    moment('2020-01-21 18:00')
+      .toDate()
+      .getTime(),
+  );
+  expect(GetEndDate(start, 4, now, end).getTime()).toBe(
+    moment('2020-01-28 18:00')
+      .toDate()
+      .getTime(),
+  );
+});
