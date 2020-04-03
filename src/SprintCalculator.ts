@@ -6,7 +6,10 @@ export const GetEndDate = (start: Date, term: number, now: Date, end: Date) => {
     .subtract(1, 'days')
     .hours(end.getHours());
   const n = moment(now);
-  const sub = n.diff(s, 'days');
+  const sub = n
+    .startOf('day')
+    .hours(end.getHours())
+    .diff(s, 'days');
   const e = n
     .startOf('day')
     .add(term * 7 - (sub % (term * 7)), 'days')

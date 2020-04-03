@@ -100,13 +100,12 @@ const App: FC = () => {
         <div className={classes.mainTimer}>
           <ScrumTimerCountdown
             end={dayEndTime.toDate()}
-            title="end work"
+            title="end working"
             main
           />
         </div>
       </div>
       <div className={classes.subTimers}>
-        <ScrumTimerCountdown end={end} title="next event" />
         <ScrumTimerCountdown end={end} title="sprint end" />
       </div>
     </>

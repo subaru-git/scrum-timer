@@ -35,6 +35,7 @@ const ScrumTimerDailyStepper: FC<{
             icon={<AccessTimeIcon />}
             iconColor={index < activeStep ? '#757575' : '#6fba1c'}
             collapsible
+            showContent
           >
             {event.content}
           </TimelineEvent>
