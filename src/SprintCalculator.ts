@@ -1,6 +1,11 @@
 import moment from 'moment';
 
-export const GetEndDate = (start: Date, term: number, now: Date, end: Date) => {
+export const GetSprintEndDate = (
+  start: Date,
+  term: number,
+  now: Date,
+  end: Date,
+) => {
   const s = moment(start)
     .startOf('day')
     .subtract(1, 'days')

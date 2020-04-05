@@ -6,7 +6,7 @@ import ScrumTimerAppBar from './ScrumTimerAppBar';
 import ScrumTimerDrawer from './ScrumTimerDrawer';
 import ScrumTimerCountdown from './ScrumTimerCountdown';
 import ScrumTimerDailyStepper from './ScrumTimerDailyStepper';
-import { GetEndDate } from './SprintCalculator';
+import { GetSprintEndDate } from './SprintCalculator';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -54,7 +54,7 @@ const App: FC = () => {
       .hours(9)
       .minutes(15),
   );
-  const end = GetEndDate(
+  const end = GetSprintEndDate(
     productBeginDate.toDate(),
     term,
     moment().toDate(),
