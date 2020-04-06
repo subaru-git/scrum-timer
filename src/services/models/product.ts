@@ -1,13 +1,14 @@
 import { firestore } from 'firebase/app';
+import moment from 'moment';
 
 export type Product = {
   id?: string;
   name: string;
-  beginDate: Date;
+  beginDate: string;
   sprintTerm: number;
-  beginTime: Date;
-  endTime: Date;
-  dailyScrumBeginTime: Date;
+  beginTime: string;
+  endTime: string;
+  dailyScrumBeginTime: string;
   createdAt: firestore.Timestamp | null;
   updatedAt: firestore.Timestamp | null;
 };
