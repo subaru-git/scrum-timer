@@ -15,6 +15,7 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import moment from 'moment';
 import useProducts from 'hooks/use-products';
 import { ProductContext } from 'contexts';
 
@@ -73,7 +74,7 @@ const ScrumTimerDrawer: FC<{
   open: boolean;
 }> = ({ handleDrawerClose, open }) => {
   const classes = useStyles();
-  const { products, loading } = useProducts();
+  const { loading } = useProducts();
   const { product, setProduct } = useContext(ProductContext);
 
   return (
@@ -103,17 +104,17 @@ const ScrumTimerDrawer: FC<{
                   <KeyboardDatePicker
                     margin="none"
                     label="product begin date"
-                    value={product.beginDate}
+                    value={moment(product.beginDate)}
                     variant="inline"
                     onChange={(date: Date | null) => {
-                      // if (date) {
-                      //   setProductBeginDate(moment(date));
-                      // } else {
-                      //   setProductBeginDate(
-                      //     moment(new Date(new Date().setHours(18, 0, 0, 0))),
-                      //   );
-                      // }
-                      console.log(date);
+                      if (date) {
+                        setProduct({
+                          ...product,
+                          beginDate: moment(date)
+                            .startOf('day')
+                            .format(),
+                        });
+                      }
                     }}
                   />
                 </MuiPickersUtilsProvider>
@@ -123,8 +124,6 @@ const ScrumTimerDrawer: FC<{
                 className={classes.termWeek}
                 value={product.sprintTerm}
                 onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
-                  // setTerm(event.target.value as number);
-                  console.log(event.target.value);
                   setProduct({
                     ...product,
                     sprintTerm: event.target.value as number,
@@ -147,14 +146,12 @@ const ScrumTimerDrawer: FC<{
                   minutesStep={5}
                   value={product.beginTime}
                   onChange={(date: Date | null) => {
-                    // if (date) {
-                    //   setDayStartTime(moment(date));
-                    // } else {
-                    //   setDayStartTime(
-                    //     moment(new Date(new Date().setHours(9, 0, 0, 0))),
-                    //   );
-                    // }
-                    console.log(date);
+                    if (date) {
+                      setProduct({
+                        ...product,
+                        beginTime: moment(date).format(),
+                      });
+                    }
                   }}
                 />
               </MuiPickersUtilsProvider>
@@ -165,14 +162,12 @@ const ScrumTimerDrawer: FC<{
                   minutesStep={5}
                   value={product.endTime}
                   onChange={(date: Date | null) => {
-                    // if (date) {
-                    //   setDayEndTime(moment(date));
-                    // } else {
-                    //   setDayEndTime(
-                    //     moment(new Date(new Date().setHours(18, 0, 0, 0))),
-                    //   );
-                    // }
-                    console.log(date);
+                    if (date) {
+                      setProduct({
+                        ...product,
+                        endTime: moment(date).format(),
+                      });
+                    }
                   }}
                 />
               </MuiPickersUtilsProvider>
@@ -185,14 +180,12 @@ const ScrumTimerDrawer: FC<{
                   minutesStep={5}
                   value={product.dailyScrumBeginTime}
                   onChange={(date: Date | null) => {
-                    // if (date) {
-                    //   setDailyScrumTime(moment(date));
-                    // } else {
-                    //   setDailyScrumTime(
-                    //     moment(new Date(new Date().setHours(9, 0, 0, 0))),
-                    //   );
-                    // }
-                    console.log(date);
+                    if (date) {
+                      setProduct({
+                        ...product,
+                        dailyScrumBeginTime: moment(date).format(),
+                      });
+                    }
                   }}
                 />
               </MuiPickersUtilsProvider>
