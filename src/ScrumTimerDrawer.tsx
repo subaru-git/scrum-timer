@@ -1,5 +1,5 @@
 import 'date-fns';
-import React, { FC } from 'react';
+import React, { FC, useContext } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Drawer from '@material-ui/core/Drawer';
@@ -15,7 +15,8 @@ import {
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import moment from 'moment';
+import useProducts from 'hooks/use-products';
+import { ProductContext } from 'contexts';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -70,33 +71,10 @@ const useStyles = makeStyles((theme: Theme) =>
 const ScrumTimerDrawer: FC<{
   handleDrawerClose: () => void;
   open: boolean;
-  day: number;
-  setDay: (day: number) => void;
-  productBeginDate: moment.Moment;
-  setProductBeginDate: (date: moment.Moment) => void;
-  term: number;
-  setTerm: (term: number) => void;
-  dayStartTime: moment.Moment;
-  setDayStartTime: (date: moment.Moment) => void;
-  dayEndTime: moment.Moment;
-  setDayEndTime: (date: moment.Moment) => void;
-  dailyScrumTime: moment.Moment;
-  setDailyScrumTime: (date: moment.Moment) => void;
-}> = ({
-  handleDrawerClose,
-  open,
-  productBeginDate,
-  setProductBeginDate,
-  term,
-  setTerm,
-  dayStartTime,
-  setDayStartTime,
-  dayEndTime,
-  setDayEndTime,
-  dailyScrumTime,
-  setDailyScrumTime,
-}) => {
+}> = ({ handleDrawerClose, open }) => {
   const classes = useStyles();
+  const { products, loading } = useProducts();
+  const { product, setProduct } = useContext(ProductContext);
 
   return (
     <div className={classes.root}>
@@ -106,106 +84,121 @@ const ScrumTimerDrawer: FC<{
         open={open}
         classes={{ paper: classes.drawerPaper }}
       >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <div className={classes.term}>
-          <Typography variant="subtitle2" gutterBottom>
-            Product Setting
-          </Typography>
-          <div className={classes.endDate}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                margin="none"
-                label="product begin date"
-                value={productBeginDate}
-                variant="inline"
-                onChange={(date: Date | null) => {
-                  if (date) {
-                    setProductBeginDate(moment(date));
-                  } else {
-                    setProductBeginDate(
-                      moment(new Date(new Date().setHours(18, 0, 0, 0))),
-                    );
-                  }
+        {loading || !product ? (
+          <p>loading</p>
+        ) : (
+          <div>
+            <div className={classes.drawerHeader}>
+              <IconButton onClick={handleDrawerClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </div>
+            <Divider />
+            <div className={classes.term}>
+              <Typography variant="subtitle2" gutterBottom>
+                Product Setting
+              </Typography>
+              <div className={classes.endDate}>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    margin="none"
+                    label="product begin date"
+                    value={product.beginDate}
+                    variant="inline"
+                    onChange={(date: Date | null) => {
+                      // if (date) {
+                      //   setProductBeginDate(moment(date));
+                      // } else {
+                      //   setProductBeginDate(
+                      //     moment(new Date(new Date().setHours(18, 0, 0, 0))),
+                      //   );
+                      // }
+                      console.log(date);
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              </div>
+              <InputLabel shrink>sprint term</InputLabel>
+              <Select
+                className={classes.termWeek}
+                value={product.sprintTerm}
+                onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+                  // setTerm(event.target.value as number);
+                  console.log(event.target.value);
+                  setProduct({
+                    ...product,
+                    sprintTerm: event.target.value as number,
+                  });
                 }}
-              />
-            </MuiPickersUtilsProvider>
+              >
+                <MenuItem value={1}>1 week</MenuItem>
+                <MenuItem value={2}>2 week</MenuItem>
+                <MenuItem value={3}>3 week</MenuItem>
+                <MenuItem value={4}>4 week</MenuItem>
+              </Select>
+            </div>
+            <Divider />
+            <div className={classes.daySetting}>
+              <Typography variant="subtitle2">Day Setting</Typography>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardTimePicker
+                  margin="normal"
+                  label="begin time"
+                  minutesStep={5}
+                  value={product.beginTime}
+                  onChange={(date: Date | null) => {
+                    // if (date) {
+                    //   setDayStartTime(moment(date));
+                    // } else {
+                    //   setDayStartTime(
+                    //     moment(new Date(new Date().setHours(9, 0, 0, 0))),
+                    //   );
+                    // }
+                    console.log(date);
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardTimePicker
+                  margin="normal"
+                  label="End Time"
+                  minutesStep={5}
+                  value={product.endTime}
+                  onChange={(date: Date | null) => {
+                    // if (date) {
+                    //   setDayEndTime(moment(date));
+                    // } else {
+                    //   setDayEndTime(
+                    //     moment(new Date(new Date().setHours(18, 0, 0, 0))),
+                    //   );
+                    // }
+                    console.log(date);
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </div>
+            <div className={classes.dailyScrum}>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardTimePicker
+                  margin="normal"
+                  label="daily scrum begin time"
+                  minutesStep={5}
+                  value={product.dailyScrumBeginTime}
+                  onChange={(date: Date | null) => {
+                    // if (date) {
+                    //   setDailyScrumTime(moment(date));
+                    // } else {
+                    //   setDailyScrumTime(
+                    //     moment(new Date(new Date().setHours(9, 0, 0, 0))),
+                    //   );
+                    // }
+                    console.log(date);
+                  }}
+                />
+              </MuiPickersUtilsProvider>
+            </div>
           </div>
-          <InputLabel shrink>sprint term</InputLabel>
-          <Select
-            className={classes.termWeek}
-            value={term}
-            onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
-              setTerm(event.target.value as number);
-            }}
-          >
-            <MenuItem value={1}>1 week</MenuItem>
-            <MenuItem value={2}>2 week</MenuItem>
-            <MenuItem value={3}>3 week</MenuItem>
-            <MenuItem value={4}>4 week</MenuItem>
-          </Select>
-        </div>
-        <Divider />
-        <div className={classes.daySetting}>
-          <Typography variant="subtitle2">Day Setting</Typography>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardTimePicker
-              margin="normal"
-              label="begin time"
-              minutesStep={5}
-              value={dayStartTime}
-              onChange={(date: Date | null) => {
-                if (date) {
-                  setDayStartTime(moment(date));
-                } else {
-                  setDayStartTime(
-                    moment(new Date(new Date().setHours(9, 0, 0, 0))),
-                  );
-                }
-              }}
-            />
-          </MuiPickersUtilsProvider>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardTimePicker
-              margin="normal"
-              label="End Time"
-              minutesStep={5}
-              value={dayEndTime}
-              onChange={(date: Date | null) => {
-                if (date) {
-                  setDayEndTime(moment(date));
-                } else {
-                  setDayEndTime(
-                    moment(new Date(new Date().setHours(18, 0, 0, 0))),
-                  );
-                }
-              }}
-            />
-          </MuiPickersUtilsProvider>
-        </div>
-        <div className={classes.dailyScrum}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardTimePicker
-              margin="normal"
-              label="daily scrum begin time"
-              minutesStep={5}
-              value={dailyScrumTime}
-              onChange={(date: Date | null) => {
-                if (date) {
-                  setDailyScrumTime(moment(date));
-                } else {
-                  setDailyScrumTime(
-                    moment(new Date(new Date().setHours(9, 0, 0, 0))),
-                  );
-                }
-              }}
-            />
-          </MuiPickersUtilsProvider>
-        </div>
+        )}
       </Drawer>
     </div>
   );

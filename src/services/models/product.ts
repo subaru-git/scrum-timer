@@ -5,7 +5,7 @@ export type Product = {
   name: string;
   beginDate: Date;
   sprintTerm: number;
-  beginTIme: Date;
+  beginTime: Date;
   endTime: Date;
   dailyScrumBeginTime: Date;
   createdAt: firestore.Timestamp | null;

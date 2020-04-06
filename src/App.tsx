@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useContext } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 import Calendar from 'react-calendar';
@@ -31,7 +31,6 @@ const useStyles = makeStyles(() =>
 const App: FC = () => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
-  const [day, setDay] = useState<number>(1);
   const [productBeginDate, setProductBeginDate] = useState<moment.Moment>(
     moment()
       .startOf('day')
@@ -81,18 +80,6 @@ const App: FC = () => {
           setOpen(false);
         }}
         open={open}
-        day={day}
-        setDay={setDay}
-        productBeginDate={productBeginDate}
-        setProductBeginDate={setProductBeginDate}
-        term={term}
-        setTerm={setTerm}
-        dayStartTime={dayStartTime}
-        setDayStartTime={setDayStartTime}
-        dayEndTime={dayEndTime}
-        setDayEndTime={setDayEndTime}
-        dailyScrumTime={dailyScrumTime}
-        setDailyScrumTime={setDailyScrumTime}
       />
       <div className={classes.appMain}>
         <ScrumTimerDailyStepper events={events} activeStep={activeStep} />
