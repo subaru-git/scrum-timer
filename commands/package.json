@@ -3,9 +3,9 @@
   "scripts": {
     "build": "npm run lint && tsc",
     "dbreset": "firebase firestore:delete --all-collections",
-    "dbreset:publishers": "firebase firestore:delete -y --shallow publishers",
-    "dbseed": "npm run dbseed:publishers",
-    "dbseed:publishers": "node lib/commands/dbseed.js publishers seeds/publishers.tsv",
+    "dbreset:products": "firebase firestore:delete -y --shallow products",
+    "dbseed": "npm run dbseed:products",
+    "dbseed:products": "node lib/dbseed.js products seeds/products.json",
     "lint": "eslint 'src/**/*.{js,ts}'",
     "lint:fix": "eslint --fix 'src/**/*.{js,ts}'",
     "test": "jest"
