@@ -4,7 +4,7 @@ import moment from 'moment';
 import ScrumTimerCountdown from 'components/Home/ScrumTimerCountdown';
 import ScrumTimerDailyStepper from 'components/Home/ScrumTimerDailyStepper';
 import { ProductContext } from 'contexts';
-import { getSprintEndDate, toToday } from 'SprintCalculator';
+import { getSprintEndDate, toToday } from 'utils/SprintCalculator';
 
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 

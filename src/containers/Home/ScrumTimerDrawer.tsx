@@ -7,6 +7,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import DrawerHeader from 'components/Drawer/DrawerHeader';
 import ProductSetting from 'components/Drawer/ProductSetting';
 import DaySetting from 'components/Drawer/DaySetting';
+import SprintSetting from 'components/Drawer/SprintSetting';
 import useProducts from 'hooks/use-products';
 import { ProductContext } from 'contexts';
 
@@ -53,6 +54,8 @@ const ScrumTimerDrawer: FC<{
             <ProductSetting product={product} setProduct={setProduct} />
             <Divider />
             <DaySetting product={product} setProduct={setProduct} />
+            <Divider />
+            <SprintSetting product={product} setProduct={setProduct} />
           </div>
         )}
       </Drawer>
