@@ -9,6 +9,10 @@ export type Product = {
   beginTime: string;
   endTime: string;
   dailyScrumBeginTime: string;
+  sprintReviewTime: number;
+  sprintRetrospectiveTime: number;
+  sprintPlanning1Time: number;
+  sprintPlanning2Time: number;
   createdAt: firestore.Timestamp | null;
   updatedAt: firestore.Timestamp | null;
 };
