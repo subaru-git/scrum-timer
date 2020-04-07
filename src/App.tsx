@@ -1,12 +1,11 @@
 import React, { FC, useState, useContext } from 'react';
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import moment from 'moment';
-import Calendar from 'react-calendar';
-import ScrumTimerAppBar from './ScrumTimerAppBar';
-import ScrumTimerDrawer from './ScrumTimerDrawer';
-import ScrumTimerCountdown from './ScrumTimerCountdown';
-import ScrumTimerDailyStepper from './ScrumTimerDailyStepper';
-import { GetSprintEndDate } from './SprintCalculator';
+import ScrumTimerAppBar from 'containers/Home/ScrumTimerAppBar';
+import ScrumTimerDrawer from 'containers/Drawer/ScrumTimerDrawer';
+import ScrumTimerCountdown from 'components/Home/ScrumTimerCountdown';
+import ScrumTimerDailyStepper from 'components/Home/ScrumTimerDailyStepper';
+import { GetSprintEndDate } from 'SprintCalculator';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -83,7 +82,6 @@ const App: FC = () => {
       />
       <div className={classes.appMain}>
         <ScrumTimerDailyStepper events={events} activeStep={activeStep} />
-        {/* <Calendar /> */}
         <div className={classes.mainTimer}>
           <ScrumTimerCountdown
             end={dayEndTime.toDate()}
