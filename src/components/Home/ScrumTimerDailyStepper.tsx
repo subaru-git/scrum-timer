@@ -30,7 +30,7 @@ const ScrumTimerDailyStepper: FC<{
       <Timeline>
         {events.map((event, index) => (
           <TimelineEvent
-            key={event.date.toString()}
+            key={`${event.date.toString()}${event.content}`}
             title={event.date.format('H:mm')}
             icon={<AccessTimeIcon />}
             iconColor={index < activeStep ? '#757575' : '#6fba1c'}

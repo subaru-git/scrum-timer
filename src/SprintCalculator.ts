@@ -1,24 +1,35 @@
 import moment from 'moment';
 
-export const GetSprintEndDate = (
+export const toToday = (time: moment.Moment) => {
+  return moment(time)
+    .year(moment().year())
+    .month(moment().month())
+    .date(moment().date());
+};
+
+export const getSprintEndDate = (
   start: Date,
   term: number,
   now: Date,
-  end: Date,
+  startTime: Date,
+  endTime: Date,
 ) => {
   const s = moment(start)
     .startOf('day')
-    .subtract(1, 'days')
-    .hours(end.getHours());
-  const n = moment(now);
-  const sub = n
+    .hours(startTime.getHours());
+  let sub = moment(now).diff(s, 'days');
+  // next day patch
+  let next = 0;
+  if (moment(now).hours() > moment(endTime).hours()) {
+    sub += 1;
+    next = 1;
+  }
+  const sprintday = term * 7 - 1;
+  const d = sprintday - (sub % (term * 7));
+  const e = moment(now)
     .startOf('day')
-    .hours(end.getHours())
-    .diff(s, 'days');
-  const e = n
-    .startOf('day')
-    .add(term * 7 - (sub % (term * 7)), 'days')
-    .hours(end.getHours());
+    .add(d + next, 'days')
+    .hours(endTime.getHours());
 
   return e.toDate();
 };
