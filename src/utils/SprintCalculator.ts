@@ -7,6 +7,16 @@ export const toToday = (time: moment.Moment) => {
     .date(moment().date());
 };
 
+export const toWeekDay = (date: moment.Moment) => {
+  if (date.weekday() === 0) {
+    date.weekday(-2);
+  } else if (date.weekday() === 6) {
+    date.weekday(-1);
+  }
+
+  return moment(date);
+};
+
 export const getSprintEndDate = (
   start: Date,
   term: number,
@@ -31,5 +41,5 @@ export const getSprintEndDate = (
     .add(d + next, 'days')
     .hours(endTime.getHours());
 
-  return e.toDate();
+  return toWeekDay(e).toDate();
 };
