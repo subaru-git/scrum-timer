@@ -2,9 +2,6 @@ import React, { FC } from 'react';
 
 import Typography from '@material-ui/core/Typography';
 import InputLabel from '@material-ui/core/InputLabel';
-import Grid from '@material-ui/core/Grid';
-import Slider from '@material-ui/core/Slider';
-import Input from '@material-ui/core/Input';
 
 import ScrumTimerSlider from 'components/common/ScrumTimerSlider';
 import { Product } from 'services/models/product';

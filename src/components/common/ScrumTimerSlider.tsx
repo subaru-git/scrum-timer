@@ -3,15 +3,14 @@ import React, { FC } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Slider from '@material-ui/core/Slider';
 import Input from '@material-ui/core/Input';
-
-import { Product } from 'services/models/product';
+import Typography from '@material-ui/core/Typography';
 
 const ScrumTimerSlider: FC<{
   value: number;
   step: number;
   min: number;
   max: number;
-  onSliderChange: (event: any, newValue: number | number[]) => void;
+  onSliderChange: (event: unknown, newValue: number | number[]) => void;
 }> = ({ value, step, min, max, onSliderChange }) => {
   return (
     <Grid container spacing={2} alignItems="center">
@@ -40,6 +39,9 @@ const ScrumTimerSlider: FC<{
             readOnly: true,
           }}
         />
+      </Grid>
+      <Grid item>
+        <Typography variant="caption">min</Typography>
       </Grid>
     </Grid>
   );

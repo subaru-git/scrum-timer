@@ -6,9 +6,11 @@
       "dom.iterable",
       "esnext"
     ],
-    "plugins": [{
-      "name": "css-module-types"
-    }],
+    "plugins": [
+      {
+        "name": "css-module-types"
+      }
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
