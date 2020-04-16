@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import ScrumTimerCountdown from 'components/Home/ScrumTimerCountdown';
 import ScrumTimerDailyStepper from 'components/Home/ScrumTimerDailyStepper';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { ProductContext } from 'contexts';
 import { getSprintEndDate, toToday } from 'utils/SprintCalculator';
 
@@ -24,6 +25,13 @@ const useStyles = makeStyles(() =>
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'flex-end',
+    },
+    loadingMain: {
+      display: 'flex',
+      height: '80vh',
+    },
+    loading: {
+      margin: 'auto',
     },
   }),
 );
@@ -53,7 +61,9 @@ const ScrumTimerMain: FC = () => {
   return (
     <>
       {!product ? (
-        <p>loading</p>
+        <div className={classes.loadingMain}>
+          <CircularProgress className={classes.loading} />
+        </div>
       ) : (
         <>
           <div className={classes.appMain}>
